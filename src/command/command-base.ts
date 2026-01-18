@@ -2,8 +2,10 @@ import type { Board } from "../board/board.model";
 import type { Robot } from "../robot/robot.model";
 
 export abstract class BaseCommand {
-  readonly commandName: Uppercase<string> = ""; // defined in the decorator @CommandName('name')
   payload?: string = "";
+  declare readonly commandName: Uppercase<string>; // gets value in the command-name.decorator.ts
+
+  abstract helpText: string;
 
   constructor(payload?: string) {
     this.payload = payload;
@@ -13,4 +15,4 @@ export abstract class BaseCommand {
   abstract execOnRobot(board: Board, robot: Robot): void;
 }
 
-export type BaseCommandType = new () => BaseCommand;
+export type BaseCommandType = new (payload?: string) => BaseCommand;

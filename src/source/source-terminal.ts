@@ -10,13 +10,17 @@ const rl = readline.createInterface({
 
 export class SourceTerminal extends BaseSource {
   override async startStream(formatter: CommandAdapter): Promise<void> {
-    console.log("Hello via Bun!");
+    console.log('Welcome to Wander Bot! Type "F1" to see available commands.');
     let answer = "";
     while (answer !== "exit") {
-      answer = await rl.question("Next command?\n");
+      answer = await rl.question("\nWhat is the next command?\n");
       console.log(answer);
       const command = formatter.read(answer);
-      this.emitCommand(command);
+      if (command) {
+        this.emitCommand(command);
+      } else {
+        console.warn("Command is not found");
+      }
     }
     rl.close();
   }

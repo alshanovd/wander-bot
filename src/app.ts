@@ -2,7 +2,7 @@ import type { BaseCommand } from "@command/command-base";
 import { SourceTerminal } from "@source/source-terminal";
 import { CommandAdapterText } from "./command-adapter/command-adapter-text";
 
-// init commands
+// init commands, better load them lazily
 await import("./command/commands");
 
 export async function bootstrap(): Promise<void> {
@@ -12,5 +12,6 @@ export async function bootstrap(): Promise<void> {
   source.subscribe((command: BaseCommand) => {
     console.log("command emitted");
     console.log(command);
+    console.log(command.commandName);
   });
 }

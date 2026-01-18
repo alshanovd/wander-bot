@@ -19,11 +19,11 @@ export class CommandStore {
     this.commands.set(name, command);
   }
 
-  getCommand(name: string): BaseCommandType {
+  getCommand(name: string): BaseCommandType | null {
     if (this.commands.has(name)) {
       return this.commands.get(name) as BaseCommandType;
     }
-    return this.commands.get("fallback") as BaseCommandType;
+    return null;
   }
 }
 

@@ -3,11 +3,12 @@ import { CommandStore } from "./command-store";
 
 export function CommandName(name: string) {
   return (commandConstructor: new () => BaseCommand) => {
-    console.log("commandConstructor", commandConstructor);
+    console.log("commandConstructor", commandConstructor, name);
 
-    Object.defineProperty(commandConstructor, "commandName", {
+    Reflect.defineProperty(commandConstructor.prototype, "commandName", {
       value: name.toLocaleUpperCase() as Uppercase<string>,
       writable: false,
+      enumerable: true,
     });
 
     const commandStore = CommandStore.getInstance();

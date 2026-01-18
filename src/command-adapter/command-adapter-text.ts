@@ -3,7 +3,7 @@ import { CommandStore } from "@command/command-store";
 import type { CommandAdapter } from "./command-adapter.model";
 
 export class CommandAdapterText implements CommandAdapter {
-  read(text: string): BaseCommand {
+  read(text: string): BaseCommand | null {
     if (!text) {
       console.error("No text provided");
     }
@@ -32,7 +32,11 @@ export class CommandAdapterText implements CommandAdapter {
 
     const Command = commandStore.getCommand(name);
 
-    const command = new Command();
+    if (!Command) {
+      return null;
+    }
+
+    const command = new Command(payload);
 
     return command;
   }
