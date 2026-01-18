@@ -1,0 +1,16 @@
+{
+  "name": "robo-matrix",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "watch": "bun index.ts --watch",
+    "start": "bun index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^7"
+  }
+}
