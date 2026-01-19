@@ -15,7 +15,7 @@ export class SourceTerminal extends BaseSource {
   private readonly message = {
     welcome: 'Welcome to Wander Bot! Type "F1" to see available commands.',
     nextCommand: "\nWhat is the next command?\n",
-    commNotFound: "Command is not found",
+    commNotFound: "Command is not found.",
   };
 
   override async startStream(commandAdapter: CommandAdapter): Promise<void> {

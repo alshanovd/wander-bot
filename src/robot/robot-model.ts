@@ -6,7 +6,7 @@ export interface Robot {
 
 export enum RobotDirection {
   North,
+  East,
   South,
   West,
-  East,
 }

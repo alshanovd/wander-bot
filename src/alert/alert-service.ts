@@ -1,13 +1,13 @@
-import { BaseAlert } from "./alert-base";
-import { AlertTerminal } from "./concrete/alert-terminal";
+import type { Alert } from "./alert-model";
+import { AlertColor } from "./concrete/alert-color";
 
-export class AlertService extends BaseAlert {
-  private static instance: AlertService;
+export class AlertService {
+  private static instance: Alert;
 
-  static getInstance(): AlertService {
+  static getInstance(): Alert {
     if (!AlertService.instance) {
-      // here we can change alert provider
-      AlertService.instance = new AlertTerminal();
+      // here we can change alert provider that implements Alert
+      AlertService.instance = new AlertColor();
     }
     return AlertService.instance;
   }

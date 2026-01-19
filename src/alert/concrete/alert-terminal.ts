@@ -1,15 +1,19 @@
-import { BaseAlert } from "../alert-base";
+import type { Alert } from "../alert-model";
 
-export class AlertTerminal extends BaseAlert {
-  error(text: string): void {
-    console.error(text);
+export class AlertTerminal implements Alert {
+  error(message: string): void {
+    console.error(message);
   }
 
-  info(text: string): void {
-    console.log(text);
+  info(message: string): void {
+    console.log(message);
   }
 
-  warning(text: string): void {
-    console.warn(text);
+  warning(message: string): void {
+    console.warn(message);
+  }
+
+  report(message: string): void {
+    console.log(message);
   }
 }
