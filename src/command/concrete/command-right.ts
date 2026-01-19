@@ -4,15 +4,15 @@ import { CommandName } from "@command/command-name.decorator";
 import { type Robot, RobotDirection } from "@robot/robot-model";
 
 const ROTATION = {
-  [RobotDirection.North]: RobotDirection.West,
+  [RobotDirection.North]: RobotDirection.East,
   [RobotDirection.West]: RobotDirection.South,
-  [RobotDirection.South]: RobotDirection.East,
+  [RobotDirection.South]: RobotDirection.West,
   [RobotDirection.East]: RobotDirection.North,
 };
 
-@CommandName("LEFT")
-export class CommandLeft extends BaseCommand {
-  override description: string = "Makes the bot turn left.";
+@CommandName("RIGHT")
+export class CommandRight extends BaseCommand {
+  override description: string = "";
 
   override execOnBoard(board: BaseBoard): boolean {
     try {
@@ -22,7 +22,7 @@ export class CommandLeft extends BaseCommand {
     }
 
     board.currentRobot.direction = ROTATION[board.currentRobot.direction];
-    this.alertService.info("Bot has turned left.");
+    this.alertService.info("Bot has turned right.");
     return true;
   }
 

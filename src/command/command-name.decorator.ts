@@ -5,14 +5,15 @@ import { CommandStore } from "./command-store";
 export function CommandName(name: string) {
   return (commandConstructor: new () => BaseCommand) => {
     console.log("commandConstructor", commandConstructor, name);
+    const formattedName = formatCommand(name);
 
     Reflect.defineProperty(commandConstructor.prototype, "commandName", {
-      value: formatCommand(name),
+      value: formattedName,
       writable: false,
       enumerable: true,
     });
 
     const commandStore = CommandStore.getInstance();
-    commandStore.addCommand(name, commandConstructor);
+    commandStore.addCommand(formattedName, commandConstructor);
   };
 }

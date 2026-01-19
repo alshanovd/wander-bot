@@ -1,25 +1,29 @@
-import { AlertService } from "@alert/alert-service";
 import type { BaseBoard } from "@board/board-base";
 import { BaseCommand } from "@command/command-base";
 import { CommandName } from "@command/command-name.decorator";
 import { type Robot, RobotDirection } from "@robot/robot-model";
 
 const DIRECTIONS = {
-  NORTH: RobotDirection.North,
-  EAST: RobotDirection.East,
-  SOUTH: RobotDirection.South,
-  WEST: RobotDirection.West,
+  north: RobotDirection.North,
+  east: RobotDirection.East,
+  south: RobotDirection.South,
+  west: RobotDirection.West,
 } as const;
+
+// const DIRECTIONS = {
+//   NORTH: RobotDirection.North,
+//   EAST: RobotDirection.East,
+//   SOUTH: RobotDirection.South,
+//   WEST: RobotDirection.West,
+// } as const;
 
 type DirectionAlias = keyof typeof DIRECTIONS;
 type PlacePayload = `${number},${number},${DirectionAlias}`;
 
 @CommandName("PLACE")
 export class CommandPlace extends BaseCommand {
-  private readonly alertService = AlertService.getInstance();
-
   override description: string =
-    "First call adds a bot to the board. Second call places the existing bot.";
+    "The first call adds a bot to the board. The second call places the existing bot.";
 
   override execOnBoard(board: BaseBoard): boolean {
     console.log("execOnBoard", this.commandName);

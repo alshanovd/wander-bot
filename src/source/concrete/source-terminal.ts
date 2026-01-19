@@ -24,16 +24,17 @@ export class SourceTerminal extends BaseSource {
     while (true) {
       const answer = await rl.question(this.message.nextCommand);
 
-      if (answer === this.exitCommand) break;
+      if (answer === this.exitCommand) {
+        rl.close();
+        return;
+      }
 
       const command = commandAdapter.convertToCommand(answer);
       if (command) {
         this.emitCommand(command);
       } else {
-        this.alertService.warning(this.message.commNotFound);
+        this.alertService.error(this.message.commNotFound);
       }
     }
-
-    rl.close();
   }
 }
