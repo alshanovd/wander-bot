@@ -15,8 +15,4 @@ export class CommandPlace extends BaseCommand {
   override execOnRobot(board: Board, robot: Robot): void {
     console.log("execOnRobot");
   }
-
-  get [Symbol.toStringTag]() {
-    return "PLACE";
-  }
 }

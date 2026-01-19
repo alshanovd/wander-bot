@@ -1,7 +1,8 @@
 import { stdin as input, stdout as output } from "node:process";
 import * as readline from "node:readline/promises";
-import type { CommandAdapter } from "../command-adapter/command-adapter.model";
-import { BaseSource } from "./base-source";
+import { AlertService } from "@alert/alert-service";
+import type { CommandAdapter } from "@format/command-adapter.model";
+import { BaseSource } from "./source-base";
 
 const rl = readline.createInterface({
   input,
@@ -9,19 +10,31 @@ const rl = readline.createInterface({
 });
 
 export class SourceTerminal extends BaseSource {
-  override async startStream(formatter: CommandAdapter): Promise<void> {
-    console.log('Welcome to Wander Bot! Type "F1" to see available commands.');
+  readonly alertService = AlertService.getInstance();
+  private readonly exitCommand = "exit";
+  private readonly message = {
+    welcome: 'Welcome to Wander Bot! Type "F1" to see available commands.',
+    nextCommand: "\nWhat is the next command?\n",
+    commNotFound: "Command is not found",
+  };
+
+  override async startStream(commandAdapter: CommandAdapter): Promise<void> {
+    this.alertService.info(this.message.welcome);
     let answer = "";
-    while (answer !== "exit") {
-      answer = await rl.question("\nWhat is the next command?\n");
+
+    while (answer !== this.exitCommand) {
+      answer = await rl.question(this.message.nextCommand);
+
       console.log(answer);
-      const command = formatter.read(answer);
+
+      const command = commandAdapter.read(answer);
       if (command) {
         this.emitCommand(command);
       } else {
-        console.warn("Command is not found");
+        this.alertService.warning(this.message.commNotFound);
       }
     }
+
     rl.close();
   }
 }

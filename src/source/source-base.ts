@@ -1,13 +1,13 @@
-import type { BaseCommand } from "../command/command-base";
-import type { CommandAdapter } from "../command-adapter/command-adapter.model";
+import type { BaseCommand } from "@command/command-base";
+import type { CommandAdapter } from "@format/command-adapter.model";
 
 type CallbackType = (command: BaseCommand) => void;
 
 export abstract class BaseSource {
   private readonly subscribers: CallbackType[] = [];
 
-  constructor(formatter: CommandAdapter) {
-    this.startStream(formatter);
+  constructor(commandAdapter: CommandAdapter) {
+    this.startStream(commandAdapter);
   }
 
   subscribe(callback: CallbackType) {

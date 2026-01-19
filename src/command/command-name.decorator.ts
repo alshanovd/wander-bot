@@ -1,3 +1,4 @@
+import { formatCommand } from "@format/command-formatter";
 import type { BaseCommand } from "./command-base";
 import { CommandStore } from "./command-store";
 
@@ -6,7 +7,7 @@ export function CommandName(name: string) {
     console.log("commandConstructor", commandConstructor, name);
 
     Reflect.defineProperty(commandConstructor.prototype, "commandName", {
-      value: name.toLocaleUpperCase() as Uppercase<string>,
+      value: formatCommand(name),
       writable: false,
       enumerable: true,
     });

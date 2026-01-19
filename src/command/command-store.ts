@@ -1,8 +1,10 @@
+import { AlertService } from "@alert/alert-service";
 import type { BaseCommand, BaseCommandType } from "./command-base";
 
 export class CommandStore {
   private static instance: CommandStore;
   private commands: Map<string, new () => BaseCommand>;
+  private alertService = AlertService.getInstance();
 
   constructor() {
     this.commands = new Map<string, new () => BaseCommand>();
@@ -16,6 +18,11 @@ export class CommandStore {
   }
 
   addCommand(name: string, command: new () => BaseCommand) {
+    if (this.commands.has(name)) {
+      this.alertService.error(
+        `Command with name "${name}" has already been added.\nCommand names must be unuique!\nCommand "${name}" has been overwritten.`,
+      );
+    }
     this.commands.set(name, command);
   }
 
@@ -26,7 +33,5 @@ export class CommandStore {
     return null;
   }
 }
-
-export const commandStore = new CommandStore();
 
 // or simply "export const commandStore = new CommandStore()" as it is Singleton anyway
