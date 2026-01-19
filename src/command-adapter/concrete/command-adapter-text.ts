@@ -12,13 +12,7 @@ export class CommandAdapterText implements CommandAdapter {
     }
 
     const commandStore = CommandStore.getInstance();
-    const CommandClass = commandStore.getCommand(name);
-
-    if (!CommandClass) {
-      return null;
-    }
-
-    const command = new CommandClass(payload);
+    const command = commandStore.getCommandInstance(name, payload);
 
     return command;
   }

@@ -1,13 +1,15 @@
 import { AlertService } from "@alert/alert-service";
-import type { BaseCommandType } from "./command-base";
+import type { BaseCommand, BaseCommandType } from "./command-base";
 
 export class CommandStore {
   private static instance: CommandStore;
-  private commands: Map<string, BaseCommandType>;
   private alertService = AlertService.getInstance();
 
+  private commandClasses: Map<string, BaseCommandType>;
+  private commandInstances = new Map<string, BaseCommand>();
+
   constructor() {
-    this.commands = new Map<string, BaseCommandType>();
+    this.commandClasses = new Map<string, BaseCommandType>();
   }
 
   static getInstance(): CommandStore {
@@ -17,26 +19,40 @@ export class CommandStore {
     return CommandStore.instance;
   }
 
-  addCommand(name: string, command: BaseCommandType) {
-    if (this.commands.has(name)) {
+  addCommandClass(name: string, command: BaseCommandType) {
+    if (this.commandClasses.has(name)) {
       this.alertService.error(
         `Command with name "${name}" has already been added.\nCommand names must be unuique!\nCommand "${name}" will be overwritten.`,
       );
     }
-    this.commands.set(name, command);
+    this.commandClasses.set(name, command);
   }
 
-  getCommand(name: string): BaseCommandType | null {
-    if (this.commands.has(name)) {
-      return this.commands.get(name) as BaseCommandType;
+  private getCommandClass(name: string): BaseCommandType | null {
+    if (this.commandClasses.has(name)) {
+      return this.commandClasses.get(name) as BaseCommandType;
     }
     return null;
   }
 
-  *getCommands(): Generator<string, void, unknown> {
-    for (const command of this.commands.keys()) {
+  *getCommandNames(): Generator<string, void, unknown> {
+    for (const command of this.commandClasses.keys()) {
       yield command;
     }
+  }
+
+  getCommandInstance(name: string, payload?: string): BaseCommand | null {
+    const CommandClass = this.getCommandClass(name);
+
+    if (!CommandClass) {
+      return null;
+    }
+
+    if (!this.commandInstances.has(name)) {
+      this.commandInstances.set(name, new CommandClass(payload));
+    }
+
+    return this.commandInstances.get(name) as BaseCommand;
   }
 }
 

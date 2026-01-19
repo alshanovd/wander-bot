@@ -13,6 +13,6 @@ export function CommandName(name: string) {
     });
 
     const commandStore = CommandStore.getInstance();
-    commandStore.addCommand(formattedName, commandConstructor);
+    commandStore.addCommandClass(formattedName, commandConstructor);
   };
 }

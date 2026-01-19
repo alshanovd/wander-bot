@@ -11,7 +11,7 @@ export class CommandF1 extends BaseCommand {
     const commandStore = CommandStore.getInstance();
 
     this.alertService.info("Commands available:");
-    for (const name of commandStore.getCommands()) {
+    for (const name of commandStore.getCommandNames()) {
       this.alertService.info(name);
     }
 
