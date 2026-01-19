@@ -1,13 +1,13 @@
 import { AlertService } from "@alert/alert-service";
-import type { BaseCommand, BaseCommandType } from "./command-base";
+import type { BaseCommandType } from "./command-base";
 
 export class CommandStore {
   private static instance: CommandStore;
-  private commands: Map<string, new () => BaseCommand>;
+  private commands: Map<string, BaseCommandType>;
   private alertService = AlertService.getInstance();
 
   constructor() {
-    this.commands = new Map<string, new () => BaseCommand>();
+    this.commands = new Map<string, BaseCommandType>();
   }
 
   static getInstance(): CommandStore {
@@ -17,7 +17,7 @@ export class CommandStore {
     return CommandStore.instance;
   }
 
-  addCommand(name: string, command: new () => BaseCommand) {
+  addCommand(name: string, command: BaseCommandType) {
     if (this.commands.has(name)) {
       this.alertService.error(
         `Command with name "${name}" has already been added.\nCommand names must be unuique!\nCommand "${name}" will be overwritten.`,
@@ -31,6 +31,12 @@ export class CommandStore {
       return this.commands.get(name) as BaseCommandType;
     }
     return null;
+  }
+
+  *getCommands(): Generator<string, void, unknown> {
+    for (const command of this.commands.keys()) {
+      yield command;
+    }
   }
 }
 

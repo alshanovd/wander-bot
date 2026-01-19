@@ -1,24 +1,10 @@
 import type { BaseBoard } from "@board/board-base";
 import { BaseCommand } from "@command/command-base";
 import { CommandName } from "@command/command-name.decorator";
-import { type Robot, RobotDirection } from "@robot/robot-model";
+import { DIRECTIONS, type DirectionName } from "@command/directions";
+import type { Robot } from "@robot/robot-model";
 
-const DIRECTIONS = {
-  north: RobotDirection.North,
-  east: RobotDirection.East,
-  south: RobotDirection.South,
-  west: RobotDirection.West,
-} as const;
-
-// const DIRECTIONS = {
-//   NORTH: RobotDirection.North,
-//   EAST: RobotDirection.East,
-//   SOUTH: RobotDirection.South,
-//   WEST: RobotDirection.West,
-// } as const;
-
-type DirectionAlias = keyof typeof DIRECTIONS;
-type PlacePayload = `${number},${number},${DirectionAlias}`;
+type PlacePayload = `${number},${number},${DirectionName}`;
 
 @CommandName("PLACE")
 export class CommandPlace extends BaseCommand {
@@ -26,50 +12,39 @@ export class CommandPlace extends BaseCommand {
     "The first call adds a bot to the board. The second call places the existing bot.";
 
   override execOnBoard(board: BaseBoard): boolean {
-    console.log("execOnBoard", this.commandName);
-
-    // verify payload string
+    // verify payload
     try {
       this.assertPayload(this.payload);
       this.verifyCoordinates(this.payload, board);
     } catch (e: unknown) {
       const error = e as Error;
       this.alertService.info(error.message);
+
       return false;
     }
 
     const [x, y, face] = this.parsePayload(this.payload);
 
     const direction = DIRECTIONS[face];
-    const robot: Robot = {
-      x,
-      y,
-      direction,
-    };
+    const robot: Robot = { x, y, direction };
 
     board.currentRobot = { ...robot };
+    this.alertService.info(`Bot placed on ${x},${y},${face}`);
 
-    console.log("EXEC ON BOARD HOORAY", this.payload, board);
     return true;
   }
 
-  override execOnRobot(_: BaseBoard, __: Robot): void {
-    console.log("execOnRobot");
-  }
-
-  private parsePayload(
-    payload: PlacePayload,
-  ): [number, number, DirectionAlias] {
+  private parsePayload(payload: PlacePayload): [number, number, DirectionName] {
     const [x, y, face] = payload.split(",");
-    return [Number(x), Number(y), face as DirectionAlias];
+    return [Number(x), Number(y), face as DirectionName];
   }
 
   private assertPayload(payload?: string): asserts payload is PlacePayload {
-    if (!this.payload) {
+    if (!payload) {
       throw new Error(`The command "${this.commandName}" must have payload.`);
     }
 
-    if (!this.payloadValidator(this.payload)) {
+    if (!this.payloadValidator(payload)) {
       throw new Error("Payload validation failed.");
     }
   }

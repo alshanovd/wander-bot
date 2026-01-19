@@ -1,7 +1,7 @@
 import type { BaseBoard } from "@board/board-base";
 import { BaseCommand } from "@command/command-base";
 import { CommandName } from "@command/command-name.decorator";
-import { type Robot, RobotDirection } from "@robot/robot-model";
+import { RobotDirection } from "@robot/robot-model";
 
 const ROTATION = {
   [RobotDirection.North]: RobotDirection.West,
@@ -16,15 +16,14 @@ export class CommandLeft extends BaseCommand {
 
   override execOnBoard(board: BaseBoard): boolean {
     try {
-      this.assertBotOnBoard(board);
+      this.assertRobotOnBoard(board);
     } catch {
       return false;
     }
 
     board.currentRobot.direction = ROTATION[board.currentRobot.direction];
-    this.alertService.info("Bot has turned left.");
+
+    this.alertService.info("Bot turned left.");
     return true;
   }
-
-  override execOnRobot(_: BaseBoard, __: Robot): void {}
 }

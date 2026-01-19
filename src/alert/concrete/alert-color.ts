@@ -5,8 +5,7 @@ const log = {
   info: (msg: string) => console.log(styleText("blue", msg)),
   warn: (msg: string) => console.warn(styleText("yellow", msg)),
   error: (msg: string) => console.error(styleText("red", msg)),
-  success: (msg: string) =>
-    console.log(styleText(["bold", "green"], `✓ ${msg}`)),
+  success: (msg: string) => console.log(styleText(["bold", "green"], `${msg}`)),
 };
 
 export class AlertColor implements Alert {

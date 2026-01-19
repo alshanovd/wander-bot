@@ -11,6 +11,7 @@ const rl = readline.createInterface({
 
 export class SourceTerminal extends BaseSource {
   readonly alertService = AlertService.getInstance();
+
   private readonly exitCommand = "exit";
   private readonly message = {
     welcome: 'Welcome to Wander Bot! Type "F1" to see available commands.',
@@ -22,7 +23,7 @@ export class SourceTerminal extends BaseSource {
     this.alertService.info(this.message.welcome);
 
     while (true) {
-      const answer = await rl.question(this.message.nextCommand);
+      const answer = await rl.question("");
 
       if (answer === this.exitCommand) {
         rl.close();

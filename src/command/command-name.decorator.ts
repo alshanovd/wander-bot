@@ -4,7 +4,6 @@ import { CommandStore } from "./command-store";
 
 export function CommandName(name: string) {
   return (commandConstructor: new () => BaseCommand) => {
-    console.log("commandConstructor", commandConstructor, name);
     const formattedName = formatCommand(name);
 
     Reflect.defineProperty(commandConstructor.prototype, "commandName", {

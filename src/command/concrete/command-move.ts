@@ -1,13 +1,51 @@
 import type { BaseBoard } from "@board/board-base";
 import { BaseCommand } from "@command/command-base";
 import { CommandName } from "@command/command-name.decorator";
-import type { Robot } from "@robot/robot-model";
+import { RobotDirection } from "@robot/robot-model";
+
+const MOVEMENT: Record<RobotDirection, [number, number]> = {
+  [RobotDirection.North]: [0, 1],
+  [RobotDirection.East]: [1, 0],
+  [RobotDirection.South]: [0, -1],
+  [RobotDirection.West]: [-1, 0],
+};
 
 @CommandName("MOVE")
 export class CommandMove extends BaseCommand {
   override description: string = "Makes the bot move forward.";
+
   override execOnBoard(board: BaseBoard): boolean {
-    throw new Error("Method not implemented.");
+    try {
+      this.assertRobotOnBoard(board);
+    } catch {
+      return false;
+    }
+
+    const { currentRobot } = board;
+    const move = MOVEMENT[currentRobot.direction];
+    const [newX, newY] = [currentRobot.x + move[0], currentRobot.y + move[1]];
+
+    const canMove = this.calcCanMove(newX, newY, board);
+    if (!canMove) {
+      this.alertService.warning("The move out of Board.");
+      return false;
+    }
+
+    currentRobot.x = newX;
+    currentRobot.y = newY;
+    this.alertService.info("Bot moved forward.");
+
+    return true;
   }
-  override execOnRobot(_: BaseBoard, __: Robot): void {}
+
+  private calcCanMove(
+    newX: number,
+    newY: number,
+    { width, height }: BaseBoard,
+  ): boolean {
+    if (newX < 0 || newY < 0 || newX >= width || newY >= height) {
+      return false;
+    }
+    return true;
+  }
 }
