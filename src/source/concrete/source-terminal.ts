@@ -2,7 +2,7 @@ import { stdin as input, stdout as output } from "node:process";
 import * as readline from "node:readline/promises";
 import { AlertService } from "@alert/alert-service";
 import type { CommandAdapter } from "@format/command-adapter.model";
-import { BaseSource } from "./source-base";
+import { BaseSource } from "../source-base";
 
 const rl = readline.createInterface({
   input,
@@ -20,14 +20,13 @@ export class SourceTerminal extends BaseSource {
 
   override async startStream(commandAdapter: CommandAdapter): Promise<void> {
     this.alertService.info(this.message.welcome);
-    let answer = "";
 
-    while (answer !== this.exitCommand) {
-      answer = await rl.question(this.message.nextCommand);
+    while (true) {
+      const answer = await rl.question(this.message.nextCommand);
 
-      console.log(answer);
+      if (answer === this.exitCommand) break;
 
-      const command = commandAdapter.read(answer);
+      const command = commandAdapter.convertToCommand(answer);
       if (command) {
         this.emitCommand(command);
       } else {

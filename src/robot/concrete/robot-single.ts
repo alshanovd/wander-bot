@@ -1,13 +1,13 @@
-import type { Robot, RobotDirection } from "./robot.model";
+import type { Robot, RobotDirection } from "../robot-model";
 
 export class RobotSingle implements Robot {
-  positionX: number;
-  positionY: number;
+  x: number;
+  y: number;
   direction: RobotDirection;
 
   constructor(x: number, y: number, dir: RobotDirection) {
-    this.positionX = x;
-    this.positionY = y;
+    this.x = x;
+    this.y = y;
     this.direction = dir;
   }
 }

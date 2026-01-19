@@ -1,5 +1,5 @@
 import { BaseAlert } from "./alert-base";
-import { AlertTerminal } from "./alerts/alert-terminal";
+import { AlertTerminal } from "./concrete/alert-terminal";
 
 export class AlertService extends BaseAlert {
   private static instance: AlertService;

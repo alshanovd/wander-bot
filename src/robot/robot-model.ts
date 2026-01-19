@@ -1,6 +1,6 @@
 export interface Robot {
-  positionX: number;
-  positionY: number;
+  x: number;
+  y: number;
   direction: RobotDirection;
 }
 

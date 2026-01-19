@@ -6,10 +6,6 @@ type CallbackType = (command: BaseCommand) => void;
 export abstract class BaseSource {
   private readonly subscribers: CallbackType[] = [];
 
-  constructor(commandAdapter: CommandAdapter) {
-    this.startStream(commandAdapter);
-  }
-
   subscribe(callback: CallbackType) {
     this.subscribers.push(callback);
   }
@@ -20,5 +16,5 @@ export abstract class BaseSource {
     }
   }
 
-  abstract startStream(formatter: CommandAdapter): Promise<void>;
+  abstract startStream(commandAdapter: CommandAdapter): Promise<void>;
 }

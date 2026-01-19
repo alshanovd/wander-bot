@@ -4,7 +4,6 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "watch": "bun index.ts --watch",
     "start": "bun index.ts"
   },
   "devDependencies": {

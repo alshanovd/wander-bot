@@ -20,7 +20,7 @@ export class CommandStore {
   addCommand(name: string, command: new () => BaseCommand) {
     if (this.commands.has(name)) {
       this.alertService.error(
-        `Command with name "${name}" has already been added.\nCommand names must be unuique!\nCommand "${name}" has been overwritten.`,
+        `Command with name "${name}" has already been added.\nCommand names must be unuique!\nCommand "${name}" will be overwritten.`,
       );
     }
     this.commands.set(name, command);

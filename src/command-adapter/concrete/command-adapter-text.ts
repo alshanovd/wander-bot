@@ -1,14 +1,13 @@
 import type { BaseCommand } from "@command/command-base";
 import { CommandStore } from "@command/command-store";
-import type { CommandAdapter } from "./command-adapter.model";
+import type { CommandAdapter } from "../command-adapter.model";
 
 export class CommandAdapterText implements CommandAdapter {
-  read(text: string): BaseCommand | null {
-    // TODO: parse string the right way
-
+  convertToCommand(text: string): BaseCommand | null {
     let name: string = "";
     let payload: string | undefined;
 
+    // TODO: parse string the right way
     // payload
     if (text.includes(" ")) {
       name = text.split(" ")[0] || "";
@@ -19,16 +18,14 @@ export class CommandAdapterText implements CommandAdapter {
     }
     console.log("name", name, "payload", payload);
 
-    name = name.toUpperCase();
-
     const commandStore = CommandStore.getInstance();
-    const Command = commandStore.getCommand(name);
+    const commandClass = commandStore.getCommand(name);
 
-    if (!Command) {
+    if (!commandClass) {
       return null;
     }
 
-    const command = new Command(payload);
+    const command = new commandClass(payload);
 
     return command;
   }
