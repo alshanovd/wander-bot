@@ -1,5 +1,5 @@
 import type { Alert } from "./alert-model";
-import { AlertColor } from "./concrete/alert-color";
+import { AlertSilent } from "./concrete/alert-silent";
 
 export class AlertService {
   private static instance: Alert;
@@ -7,7 +7,7 @@ export class AlertService {
   static getInstance(): Alert {
     if (!AlertService.instance) {
       // here we can change alert provider that implements Alert
-      AlertService.instance = new AlertColor();
+      AlertService.instance = new AlertSilent();
     }
     return AlertService.instance;
   }
