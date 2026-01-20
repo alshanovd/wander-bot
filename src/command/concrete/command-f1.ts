@@ -10,9 +10,9 @@ export class CommandF1 extends BaseCommand {
   override execOnBoard(_: BaseBoard): boolean {
     const commandStore = CommandStore.getInstance();
 
-    this.alertService.info("Commands available:");
+    this.alertService.report("Commands available:");
     for (const name of commandStore.getCommandNames()) {
-      this.alertService.info(name);
+      this.alertService.report(name);
     }
 
     return true;

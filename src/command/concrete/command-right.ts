@@ -5,9 +5,9 @@ import { RobotDirection } from "@robot/robot-model";
 
 const ROTATION = {
   [RobotDirection.North]: RobotDirection.East,
-  [RobotDirection.West]: RobotDirection.South,
+  [RobotDirection.East]: RobotDirection.South,
   [RobotDirection.South]: RobotDirection.West,
-  [RobotDirection.East]: RobotDirection.North,
+  [RobotDirection.West]: RobotDirection.North,
 };
 
 @CommandName("RIGHT")
