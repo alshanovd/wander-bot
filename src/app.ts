@@ -1,9 +1,9 @@
 import { BoardSingleBot } from "@board/concrete/board-single-bot";
+import { CommandAdapterText } from "@format/concrete/command-adapter-text";
 import { SourceTerminal } from "@source/concrete/source-terminal";
-import { CommandAdapterText } from "./command-adapter/concrete/command-adapter-text";
 
 // init commands, better load them lazily
-await import("./command/concrete");
+await import("./command/concrete/index");
 
 export async function bootstrap(): Promise<void> {
   const commandAdapter = new CommandAdapterText();
@@ -13,3 +13,5 @@ export async function bootstrap(): Promise<void> {
   board.attachSource(source);
   await source.startStream(commandAdapter);
 }
+
+await bootstrap();
