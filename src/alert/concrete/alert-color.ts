@@ -1,11 +1,10 @@
-import chalk from "chalk";
 import type { Alert } from "../alert-model";
 
 const log = {
-  info: (msg: string) => console.log(chalk.blue(msg)),
-  warn: (msg: string) => console.warn(chalk.yellow(msg)),
-  error: (msg: string) => console.error(chalk.red(msg)),
-  success: (msg: string) => console.log(chalk.green(msg)),
+  info: (msg: string) => console.log("\x1b[36m%s\x1b[0m", msg, "\x1b[0m"),
+  warn: (msg: string) => console.log("\x1b[33m%s\x1b[0m", msg, "\x1b[0m"),
+  error: (msg: string) => console.log("\x1b[31m%s\x1b[0m", msg, "\x1b[0m"),
+  success: (msg: string) => console.log("\x1b[32m%s\x1b[0m", msg, "\x1b[0m"),
 };
 
 export class AlertColor implements Alert {

@@ -30,6 +30,7 @@ export class CommandPlace extends BaseCommand {
 
     board.currentRobot = { ...robot };
     this.alertService.info(`Bot placed on ${x},${y},${face}`);
+    this.payload = undefined; // command can used many times
 
     return true;
   }

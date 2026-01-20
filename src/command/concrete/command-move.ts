@@ -1,6 +1,7 @@
 import type { BaseBoard } from "@board/board-base";
 import { BaseCommand } from "@command/command-base";
 import { CommandName } from "@command/command-name.decorator";
+import { getDirectionName } from "@command/directions";
 import { RobotDirection } from "@robot/robot-model";
 
 const MOVEMENT: Record<RobotDirection, [number, number]> = {
@@ -33,7 +34,8 @@ export class CommandMove extends BaseCommand {
 
     currentRobot.x = newX;
     currentRobot.y = newY;
-    this.alertService.info("Bot moved forward.");
+    const direction = getDirectionName(currentRobot.direction);
+    this.alertService.info(`Bot moved forward to ${direction}.`);
 
     return true;
   }
