@@ -41,8 +41,17 @@ test.describe("Robot CLI E2E", () => {
       setTimeout(() => reject(new Error("Timeout")), 5000);
     });
 
-    // Assert output
-    expect(output).toContain("1,3,NORTH");
+    // Assert output - verify exact position and direction
+    const reportMatch = output.match(/Output: (\d+),(\d+),(\w+)/);
+    expect(reportMatch).not.toBeNull();
+
+    if (reportMatch) {
+      const [, x, y, direction] = reportMatch;
+      expect(x).toBe("1");
+      expect(y).toBe("3");
+      expect(direction).toBe("NORTH");
+    }
+
     expect(error).toBe(""); // No errors
   });
 });

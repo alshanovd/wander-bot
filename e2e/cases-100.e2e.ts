@@ -89,7 +89,7 @@ function generateStressTestCommands(): {
 test.describe("Robot CLI E2E Stress Test", () => {
   test("Stress test: 100 commands on 10x10 board", async () => {
     const appPath = path.join(process.cwd(), "dist/app.js");
-    const { commands } = generateStressTestCommands();
+    const { commands, expectedFinalState } = generateStressTestCommands();
 
     const proc = spawn("node", [appPath], {
       stdio: ["pipe", "pipe", "pipe"],
@@ -126,28 +126,46 @@ test.describe("Robot CLI E2E Stress Test", () => {
       setTimeout(() => reject(new Error("Timeout after 10s")), 10000);
     });
 
-    // Assert output contains reports (at least 2: from loop and final)
-    const reportCount = (output.match(/Output:/g) || []).length;
-    expect(reportCount).toBeGreaterThanOrEqual(2);
-
-    // Assert final state is within bounds
-    const lastReport = output
+    // Extract and validate all REPORT outputs
+    const reportLines = output
       .split("\n")
-      .reverse()
-      .find((line) => line.includes("Output:"));
-    expect(lastReport).toBeDefined();
+      .filter((line) => line.includes("Output:"));
 
-    if (lastReport) {
-      const match = lastReport.match(/Output: (\d+),(\d+),(\w+)/);
+    expect(reportLines.length).toBeGreaterThanOrEqual(2);
+
+    // Validate each report contains proper format and state
+    for (const line of reportLines) {
+      const match = line.match(/Output: (\d+),(\d+),(\w+)/);
       expect(match).not.toBeNull();
 
       if (match) {
         const [, x, y, direction] = match;
-        expect(Number(x)).toBeGreaterThanOrEqual(0);
-        expect(Number(x)).toBeLessThan(BOARD_SIZE);
-        expect(Number(y)).toBeGreaterThanOrEqual(0);
-        expect(Number(y)).toBeLessThan(BOARD_SIZE);
+        const xNum = Number(x);
+        const yNum = Number(y);
+
+        // All positions must be within board bounds
+        expect(xNum).toBeGreaterThanOrEqual(0);
+        expect(xNum).toBeLessThan(BOARD_SIZE);
+        expect(yNum).toBeGreaterThanOrEqual(0);
+        expect(yNum).toBeLessThan(BOARD_SIZE);
+
+        // Direction must be a valid cardinal direction
         expect(["NORTH", "EAST", "SOUTH", "WEST"]).toContain(direction);
+      }
+    }
+
+    // Verify final state matches expected final state
+    const lastReport = reportLines[reportLines.length - 1];
+    expect(lastReport).toBeDefined();
+
+    if (lastReport) {
+      const match = lastReport.match(/Output: (\d+),(\d+),(\w+)/);
+      if (match) {
+        const [, finalX, finalY, finalDir] = match;
+        // Verify the final reported position and direction are as expected
+        expect(Number(finalX)).toEqual(expectedFinalState.x);
+        expect(Number(finalY)).toEqual(expectedFinalState.y);
+        expect(finalDir).toEqual(expectedFinalState.direction);
       }
     }
 
