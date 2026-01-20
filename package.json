@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon --exec tsx src/index.ts --quiet",
-    "start": "node dist/app.js",
+    "start": "vite build && node dist/app.js",
     "build": "vite build",
     "test": "vitest --silent",
     "test:dev": "vitest --watch",

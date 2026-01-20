@@ -10,7 +10,7 @@ Install dependencies:
 npm i
 ```
 
-Run the application:
+Build and Run the application:
 
 ```bash
 npm run start
@@ -28,7 +28,7 @@ npm run start
 
 - `dev` - Run the app in development mode with auto-reload
 - `dev-bun` - Run the app using Bun runtime (requires [Bun](https://bun.com/))
-- `start` - Run the built application
+- `start` - Build and Run the built application
 - `build` - Build the application with [Vite](https://vite.dev/)
 - `test` - Run unit tests with [Vitest](https://vitest.dev/)
 - `test:dev` - Run tests in watch mode
