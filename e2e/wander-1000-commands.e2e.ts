@@ -255,7 +255,7 @@ test.describe("Robot CLI E2E Stress Test - 1000 Commands with PLACE verification
     });
 
     // Pipe all commands
-    const inputs = commands.map((cmd) => cmd.input).join("\n") + "\n";
+    const inputs = `${commands.map((cmd) => cmd.input).join("\n")}\n`;
     proc.stdin?.write(inputs);
     proc.stdin?.end();
 
@@ -430,7 +430,7 @@ test.describe("Robot CLI E2E Stress Test - 1000 Commands with PLACE verification
         error += chunk.toString();
       });
 
-      const inputs = testCase.commands.join("\n") + "\n";
+      const inputs = `${testCase.commands.join("\n")}\n`;
       proc.stdin?.write(inputs);
       proc.stdin?.end();
 
