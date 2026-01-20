@@ -7,6 +7,7 @@ import { BaseSource } from "../source-base";
 const rl = readline.createInterface({
   input,
   output,
+  terminal: false,
 });
 
 export class SourceTerminal extends BaseSource {
