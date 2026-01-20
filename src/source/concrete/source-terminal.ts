@@ -23,20 +23,22 @@ export class SourceTerminal extends BaseSource {
   override async startStream(commandAdapter: CommandAdapter): Promise<void> {
     this.alertService.info(this.message.welcome);
 
-    while (true) {
-      const answer = await rl.question("");
+    try {
+      for await (const answer of rl) {
+        if (answer === this.exitCommand) {
+          rl.close();
+          return;
+        }
 
-      if (answer === this.exitCommand) {
-        rl.close();
-        return;
+        const command = commandAdapter.convertToCommand(answer);
+        if (command) {
+          this.emitCommand(command);
+        } else {
+          this.alertService.error(this.message.commNotFound);
+        }
       }
-
-      const command = commandAdapter.convertToCommand(answer);
-      if (command) {
-        this.emitCommand(command);
-      } else {
-        this.alertService.error(this.message.commNotFound);
-      }
+    } finally {
+      rl.close();
     }
   }
 }

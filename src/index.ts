@@ -5,13 +5,13 @@ import { SourceTerminal } from "@source/concrete/source-terminal";
 // init commands, better load them lazily
 await import("./command/concrete/index");
 
-export function bootstrap(): void {
+export async function bootstrap(): Promise<void> {
   const commandAdapter = new CommandAdapterText();
   const board = new BoardSingleBot(5, 5);
   const source = new SourceTerminal();
 
   board.attachSource(source);
-  source.startStream(commandAdapter);
+  await source.startStream(commandAdapter);
 }
 
 bootstrap();

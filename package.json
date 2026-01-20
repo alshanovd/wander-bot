@@ -9,12 +9,15 @@
     "build": "vite build",
     "test": "vitest",
     "test:dev": "vitest --watch",
+    "e2e": "npm run build && playwright test",
+    "e2e:watch": "npm run build && playwright test --ui",
     "lint": "biome check src/",
     "prepare": "husky",
     "dev-bun": "bun src/index.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",
+    "@playwright/test": "^1.57.0",
     "@types/bun": "latest",
     "husky": "^9.1.7",
     "nodemon": "^3.1.11",
