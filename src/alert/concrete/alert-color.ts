@@ -1,11 +1,11 @@
-import { styleText } from "node:util";
+import chalk from "chalk";
 import type { Alert } from "../alert-model";
 
 const log = {
-  info: (msg: string) => console.log(styleText("blue", msg)),
-  warn: (msg: string) => console.warn(styleText("yellow", msg)),
-  error: (msg: string) => console.error(styleText("red", msg)),
-  success: (msg: string) => console.log(styleText(["bold", "green"], `${msg}`)),
+  info: (msg: string) => console.log(chalk.blue(msg)),
+  warn: (msg: string) => console.warn(chalk.yellow(msg)),
+  error: (msg: string) => console.error(chalk.red(msg)),
+  success: (msg: string) => console.log(chalk.green(msg)),
 };
 
 export class AlertColor implements Alert {
