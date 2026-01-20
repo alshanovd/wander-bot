@@ -1,6 +1,6 @@
 # 🤖 Wander Bot
 
-A command-driven robot simulator that moves a toy robot on a 5x5 grid while preventing it from falling off the table. The robot responds to commands like PLACE, MOVE, LEFT, RIGHT, and REPORT to navigate and report its position and direction.
+A command-driven robot simulator that moves a toy robot on a 5x5 grid while preventing it from falling off the table. The robot responds to commands like `PLACE`, `MOVE`, `LEFT`, `RIGHT`, and `REPORT` to navigate and report its position and direction.
 
 ## 🚀 Quick Start
 
@@ -77,7 +77,7 @@ npm run e2e         # Build and run tests
 npm run e2e:watch   # Watch mode with UI
 ```
 ## 📖 Verbose Mode
-You can turn on app notifications by switching `AlertSilence` to `AlertColor` in [src/alert/alert-service.ts](src/alert/alert-service.ts). **⚠️Warning This is for dev purposes, tests will fail when different than `AlertSilence` provider is used.**
+You can turn on app notifications by switching `AlertSilence` to `AlertColor` in [src/alert/alert-service.ts](src/alert/alert-service.ts). <br>**⚠️ Warning!** This is for dev purposes, tests will fail when different than `AlertSilence` provider is used.
 
 ## 🔁 CI / CD
 - **Pre-commit Hooks**: Husky runs linting checks (`npm run lint`) before every commit to ensure code quality and prevent style violations.
