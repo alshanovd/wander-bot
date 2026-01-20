@@ -15,7 +15,7 @@ export class SourceTerminal extends BaseSource {
 
   private readonly exitCommand = "exit";
   private readonly message = {
-    welcome: 'Welcome to Wander Bot! Type "F1" to see available commands.',
+    welcome: `Welcome to Wander Bot! Type "F1" to see available commands. Use "${this.exitCommand}" to quit. `,
     nextCommand: "\nWhat is the next command?\n",
     commNotFound: "Command is not found.",
   };

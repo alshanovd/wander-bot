@@ -48,11 +48,17 @@ export class CommandStore {
       return null;
     }
 
-    if (!this.commandInstances.has(name)) {
-      this.commandInstances.set(name, new CommandClass(payload));
+    let command: BaseCommand | undefined = this.commandInstances.get(name);
+    if (command) {
+      if (command.payload !== payload) {
+        command = new CommandClass(payload);
+      }
+    } else {
+      command = new CommandClass(payload);
+      this.commandInstances.set(name, command);
     }
 
-    return this.commandInstances.get(name) as BaseCommand;
+    return command;
   }
 }
 
