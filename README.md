@@ -7,7 +7,7 @@ A command-driven robot simulator that moves a toy robot on a 5x5 grid while prev
 Install dependencies:
 
 ```bash
-npm i
+npm i       # or pnpm, yarn, bun
 ```
 
 Build and Run the application:
@@ -44,6 +44,33 @@ npm run start
 - **Linting**: Biome
 - **Runtime**: Node.js / Bun
 - **Development Tools**: Nodemon, TSX, Husky
+
+## ⚙️ Dev & Debug
+
+### Folder Structure
+`/src/` contains entities (folders). Some entities have a base class, while others just have an interface. Concrete implementations are in folders `src/[entity-name]/concrete`.<br>
+
+### Entities
+- **Robot** - plain object with 3 properties (x,y,dir).
+- **Board** - class that contains Robot.
+- **Source** - class implements the access to input source. Uses Command Adapter to get Commands and emits them to Board.
+- **Command Adapter** - converts messages from Source to Commands.
+- **Command** - can be executed on Board. Contains all logic and validation.
+
+### Bootstrap
+1. `src/index.ts` - we create concrete `Command Adapter`, `Board` and `Source` instances.
+2. Next, we connect `Source` to `Board` (Board subscribes to Source events).
+3. We kick off Source stream using `Command Adapter` (so the source knows how to convert source messages into commands).
+
+### New Commands
+1. You need to add a class to `src/command/contrete/` folder with `@CommandName` decorator.
+2. ADD CREATED FILE ❗️ to [src/command/contrete/index.ts](src/command/contrete/index.ts). Without it, the command won't be added to `Command Store` and found.
+3. Implement logic `execOnBoard` where you have both - Board and Robot.
+
+### Other
+- **Command Store** - singleton for storing all command instances.
+- **@CommandName('name')** - decorator for registering new commands.
+- **Alert** - singleton for notifications.
 
 ## 🧪 Testing
 
