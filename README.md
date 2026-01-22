@@ -64,7 +64,7 @@ npm run start
 
 ### New Commands
 1. You need to add a class to `src/command/contrete/` folder with `@CommandName` decorator.
-2. ADD CREATED FILE ❗️ to [src/command/contrete/index.ts](src/command/contrete/index.ts). Without it, the command won't be added to `Command Store` and found.
+2. ADD CREATED FILE ❗️ to [src/command/contrete/index.ts](src/command/concrete/index.ts). Without it, the command won't be added to `Command Store` and found.
 3. Implement logic `execOnBoard` where you have both - Board and Robot.
 
 ### Other
