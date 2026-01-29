@@ -7,7 +7,7 @@ await import("./command/concrete/index");
 
 export async function bootstrap(): Promise<void> {
   const commandAdapter = new CommandAdapterText();
-  const board = new BoardSingleBot(10, 10);
+  const board = new BoardSingleBot(5, 5);
   const source = new SourceTerminal();
 
   board.attachSource(source);
