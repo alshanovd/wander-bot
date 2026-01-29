@@ -21,4 +21,8 @@ export class CommandReport extends BaseCommand {
 
     return true;
   }
+
+  override payloadValidator(_: string): boolean {
+    return true;
+  }
 }

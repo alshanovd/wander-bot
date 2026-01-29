@@ -40,14 +40,17 @@ export class CommandMove extends BaseCommand {
     return true;
   }
 
-  private calcCanMove(
-    newX: number,
-    newY: number,
-    { width, height }: BaseBoard,
-  ): boolean {
-    if (newX < 0 || newY < 0 || newX >= width || newY >= height) {
+  private calcCanMove(newX: number, newY: number, board: BaseBoard): boolean {
+    try {
+      this.verifyCoordinates(`${newX},${newY}`, board);
+      return true;
+    } catch {
+      this.alertService.warning("The move is blocked.");
       return false;
     }
+  }
+
+  payloadValidator(_: string): boolean {
     return true;
   }
 }

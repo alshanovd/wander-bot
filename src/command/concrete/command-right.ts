@@ -25,4 +25,8 @@ export class CommandRight extends BaseCommand {
     this.alertService.info("Bot turned right.");
     return true;
   }
+
+  payloadValidator(_: string): boolean {
+    return true;
+  }
 }

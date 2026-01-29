@@ -1,10 +1,8 @@
 import type { BaseBoard } from "@board/board-base";
-import { BaseCommand } from "@command/command-base";
+import { BaseCommand, type PlacePayload } from "@command/command-base";
 import { CommandName } from "@command/command-name.decorator";
 import { DIRECTIONS, type DirectionName } from "@command/directions";
 import type { Robot } from "@robot/robot-model";
-
-type PlacePayload = `${number},${number},${DirectionName}`;
 
 @CommandName("PLACE")
 export class CommandPlace extends BaseCommand {
@@ -30,7 +28,7 @@ export class CommandPlace extends BaseCommand {
 
     board.currentRobot = { ...robot };
     this.alertService.info(`Bot placed on ${x},${y},${face}`);
-    this.payload = undefined; // command can used many times
+    this.payload = undefined; // command instance can be used many times
 
     return true;
   }
@@ -40,30 +38,12 @@ export class CommandPlace extends BaseCommand {
     return [Number(x), Number(y), face as DirectionName];
   }
 
-  private assertPayload(payload?: string): asserts payload is PlacePayload {
-    if (!payload) {
-      throw new Error(`The command "${this.commandName}" must have payload.`);
-    }
-
-    if (!this.payloadValidator(payload)) {
-      throw new Error("Payload validation failed.");
-    }
-  }
-
-  private payloadValidator(payload: string): boolean {
+  override payloadValidator(payload: string): boolean {
     const pattern = /^\d+,\d+,(\w+)$/;
     const [_, dir] = pattern.exec(payload) || [];
 
     if (dir) return dir in DIRECTIONS;
 
     return false;
-  }
-
-  private verifyCoordinates(payload: PlacePayload, board: BaseBoard): void {
-    const [x, y] = payload.split(",");
-
-    if (Number(x) >= board.width || Number(y) >= board.height) {
-      throw new Error("Place coordinates are out of Board range.");
-    }
   }
 }

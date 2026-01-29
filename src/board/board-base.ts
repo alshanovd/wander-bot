@@ -7,6 +7,7 @@ export abstract class BaseBoard {
   width: number;
   height: number;
   currentRobot: Robot | null;
+  blocked: number[][] = [];
 
   constructor(w: number, h: number) {
     this.width = w;

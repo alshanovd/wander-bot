@@ -1,3 +1,4 @@
+export { CommandBlock } from "./command-block";
 export { CommandF1 } from "./command-f1";
 export { CommandLeft } from "./command-left";
 export { CommandMove } from "./command-move";

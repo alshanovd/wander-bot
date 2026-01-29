@@ -17,4 +17,8 @@ export class CommandF1 extends BaseCommand {
 
     return true;
   }
+
+  override payloadValidator(_: string): boolean {
+    return true;
+  }
 }

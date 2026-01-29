@@ -26,4 +26,8 @@ export class CommandLeft extends BaseCommand {
     this.alertService.info("Bot turned left.");
     return true;
   }
+
+  payloadValidator(_: string): boolean {
+    return true;
+  }
 }
